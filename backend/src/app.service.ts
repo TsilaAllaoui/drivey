@@ -8,8 +8,6 @@ export class AppService {
 
   // Upload file from specidied URL
   async uploadFileFromURL(url: string, uid: string) {
-    this.websocketGateway.server.emit('test', 'TEST');
-    return '';
     try {
       // Mounting drive
       let output = '';

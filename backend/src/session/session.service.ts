@@ -44,7 +44,9 @@ export class SessionService {
   // Create new session and mount current user drive
   async createSession() {
     try {
+      let output = ""
       const uid = uuidv4();
+      console.log(uid)
       const child = await child_process.spawnSync('gcsf', ['login', uid]);
       console.log(child.stdout.toString());
       console.log('UUID: ' + uid);

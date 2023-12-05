@@ -1,16 +1,15 @@
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
-import { api } from "../api";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api";
 
 function Authorize({ updateUid }: { updateUid: (v: string) => void }) {
   const navigate = useNavigate();
   const createSession = () => {
     api
-      .post("/session/login")
+      .get("/session/login")
       .then((res) => {
         const uid: string = res.data;
-        console.log(uid);
+        console.log("New UUID: " + uid);
         updateUid(uid);
         navigate("/" + uid);
       })

@@ -15,7 +15,7 @@ export class SessionController {
     return await this.sessionService.checkSession(uid);
   }
 
-  @Post('login')
+  @Get('login')
   @ApiOperation({
     summary: 'Create Session for current user',
   })
