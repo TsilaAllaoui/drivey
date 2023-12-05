@@ -4,11 +4,11 @@ import { WebsocketGateway } from './websocket/websocket.gateway';
 
 @Injectable()
 export class AppService {
-  constructor(private websocketGateway: WebsocketGateway) {}
+  constructor(private readonly websocketGateway: WebsocketGateway) {}
 
   // Upload file from specidied URL
   async uploadFileFromURL(url: string, uid: string) {
-    this.websocketGateway.server.emit('percentage', '0%');
+    this.websocketGateway.server.emit('test', 'TEST');
     return '';
     try {
       // Mounting drive
@@ -24,44 +24,49 @@ export class AppService {
       ]);
 
       child.stdout.setEncoding('utf8');
-      child.stdout.on('data', function (data) {
+      child.stdout.on('data', (data) => {
         console.log(data);
         output += data.toString();
       });
+
       child.stderr.setEncoding('utf8');
-      child.stderr.on('data', function (data) {
+      child.stderr.on('data', (data) => {
         console.log(data);
         output += data.toString();
         if (output.includes('Mounted to')) {
           console.log('Uploading....');
-          let child = child_process.spawn('wget', [
+          let uploadChild = child_process.spawn('wget', [
             '-P',
             '/home/tsila/gdrive',
             url,
           ]);
-          child.stderr.setEncoding('utf8');
-          child.stderr.on('data', function (data) {
+
+          uploadChild.stderr.setEncoding('utf8');
+          uploadChild.stderr.on('data', (data) => {
             const log = data.toString();
             if (log.includes('%')) {
               const pos = log.indexOf('%');
               let left = pos;
-              while (log[left] != ' ') {
+              while (log[left] !== ' ') {
                 left--;
               }
               let percentage = log.slice(left + 1, pos + 1);
               console.log(percentage);
+              // Use an arrow function to preserve the context
               this.websocketGateway.server.emit('percentage', percentage);
             }
 
             output += data.toString();
           });
-          child.on('close', (code) => {
+
+          uploadChild.on('close', (code) => {
             console.log('Command returned code ' + code + ' on exit');
           });
 
-          return child.stdout.toString();
+          return uploadChild.stdout.toString();
         }
       });
+
       child.on('close', (code) => {
         console.log('Command returned code ' + code + ' on exit');
         return child.stdout.toString();

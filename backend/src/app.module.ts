@@ -8,6 +8,6 @@ import { WebsocketModule } from './websocket/websocket.module';
 @Module({
   imports: [SessionModule, WebsocketModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, WebsocketGateway],
 })
 export class AppModule {}

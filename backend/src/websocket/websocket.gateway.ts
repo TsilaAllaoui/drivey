@@ -7,7 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class WebsocketGateway implements OnGatewayInit {
   @WebSocketServer() server: Server;
 
@@ -15,8 +15,8 @@ export class WebsocketGateway implements OnGatewayInit {
     console.log('Socket.io Gateway initialized');
   }
 
-  @SubscribeMessage('percentage')
-  handleMessage(client: any, payload: string): string {
-    return payload;
+  emitMessage(percentage: string) {
+    console.log('In server: ' + percentage);
+    this.server.emit('percentage', percentage);
   }
 }

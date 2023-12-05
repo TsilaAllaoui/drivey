@@ -6,15 +6,13 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import { api } from "../api";
 
 function Upload() {
   const location = useLocation();
   const [percentage, setPercentage] = useState("");
-  const navigate = useNavigate();
-  const setUid: (v: boolean) => void = useOutletContext();
 
   const uploadFromUrl = () => {
     const input = document.querySelector("#url") as HTMLInputElement;
@@ -28,7 +26,13 @@ function Upload() {
 
   useEffect(() => {
     const socket = io(import.meta.env.VITE_API_ENDPOINT!);
-    socket.on("percentage", (data) => setPercentage(data));
+    socket.on("percentage", (data) => {
+      console.log(data);
+      setPercentage(data);
+    });
+    socket.on("test", (data) => {
+      console.log(data);
+    });
   }, []);
 
   return (
@@ -46,7 +50,7 @@ function Upload() {
       <Button variant="outlined" onClick={uploadFromUrl}>
         Upload
       </Button>
-      <p>{percentage}</p>
+      <p>Progress: {percentage}</p>
     </FormControl>
   );
 }
