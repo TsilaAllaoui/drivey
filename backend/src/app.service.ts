@@ -1,34 +1,71 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as child_process from 'child_process';
-import { v4 as uuidv4 } from 'uuid';
+import { WebsocketGateway } from './websocket/websocket.gateway';
 
 @Injectable()
 export class AppService {
+  constructor(private websocketGateway: WebsocketGateway) {}
+
   // Upload file from specidied URL
-  uploadFileFromURL(url: string) {
+  async uploadFileFromURL(url: string, uid: string) {
+    this.websocketGateway.server.emit('percentage', '0%');
+    return '';
     try {
+      // Mounting drive
       let output = '';
-      // const child = child_process.spawn('sudo', ['gcsf', 'login', uuid]);
+      console.log(`Uploading file at url: "${url}"`);
+      console.log('UUID: ' + uid);
+      await child_process.spawnSync('sudo', ['umount', '/home/tsila/gdrive']);
+      let child = child_process.spawn('gcsf', [
+        'mount',
+        '/home/tsila/gdrive/',
+        '-s',
+        uid,
+      ]);
 
-      // child.stdout.setEncoding('utf8');
-      // child.stdout.on('data', function (data) {
-      //   console.log(data);
-      //   output += data.toString();
-      // });
-      // child.stderr.setEncoding('utf8');
-      // child.stderr.on('data', function (data) {
-      //   console.log(data);
-      //   output += data.toString();
-      // });
-      // child.on('close', (code) => {
-      //   console.log('Command returned code ' + code + ' on exit');
-      // });
+      child.stdout.setEncoding('utf8');
+      child.stdout.on('data', function (data) {
+        console.log(data);
+        output += data.toString();
+      });
+      child.stderr.setEncoding('utf8');
+      child.stderr.on('data', function (data) {
+        console.log(data);
+        output += data.toString();
+        if (output.includes('Mounted to')) {
+          console.log('Uploading....');
+          let child = child_process.spawn('wget', [
+            '-P',
+            '/home/tsila/gdrive',
+            url,
+          ]);
+          child.stderr.setEncoding('utf8');
+          child.stderr.on('data', function (data) {
+            const log = data.toString();
+            if (log.includes('%')) {
+              const pos = log.indexOf('%');
+              let left = pos;
+              while (log[left] != ' ') {
+                left--;
+              }
+              let percentage = log.slice(left + 1, pos + 1);
+              console.log(percentage);
+              this.websocketGateway.server.emit('percentage', percentage);
+            }
 
-      return output;
+            output += data.toString();
+          });
+          child.on('close', (code) => {
+            console.log('Command returned code ' + code + ' on exit');
+          });
+
+          return child.stdout.toString();
+        }
+      });
+      child.on('close', (code) => {
+        console.log('Command returned code ' + code + ' on exit');
+        return child.stdout.toString();
+      });
     } catch (err) {
       console.log(err);
       throw new BadRequestException(

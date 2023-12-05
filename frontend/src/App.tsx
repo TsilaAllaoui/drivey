@@ -1,20 +1,35 @@
-import "./App.css";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Authorize from "./components/Authorize";
 import { api } from "./api";
 
 function App() {
-  const createSession = () => {
-    api.post("/login");
-  };
+  const [uid, setUid] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname != "/") {
+      api.post("/session/" + location.pathname.slice(1)).then((res) => {
+        console.log(res.data);
+        if (!res.data) {
+          navigate("/");
+        } else {
+          console.log(res.data);
+        }
+      });
+      setUid(location.pathname.slice(1));
+    } else setUid("");
+  }, [location]);
 
   return (
-    <div>
-      <a
-        onClick={createSession}
-        target="_blank"
-        href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/drive&access_type=offline&redirect_uri=http://127.0.0.1:8081&response_type=code&client_id=83308545294-260s30kocb0gjsermuhlflehdsedqa95.apps.googleusercontent.com"
-      >
-        Authorize
-      </a>
+    <div className="main">
+      <h1>Drivey</h1>
+      {uid == "" ? (
+        <Authorize updateUid={setUid} />
+      ) : (
+        <Outlet context={[uid, setUid]} />
+      )}
     </div>
   );
 }

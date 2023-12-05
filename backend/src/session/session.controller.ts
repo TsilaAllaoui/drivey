@@ -1,11 +1,19 @@
-import { Controller, Post, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Delete, Param, Get, Body } from '@nestjs/common';
 import { SessionService } from './session.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('🔗 Session')
-@Controller('session')
+@Controller('/api/session')
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
+
+  @Post('/:uid')
+  @ApiOperation({
+    summary: 'Check if user already have a session',
+  })
+  async checkSession(@Param('uid') uid: string) {
+    return await this.sessionService.checkSession(uid);
+  }
 
   @Post('login')
   @ApiOperation({

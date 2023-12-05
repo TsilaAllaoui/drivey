@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { UploadFromUrlDto } from './dto/UploadFromUrl.dto';
+import { WebsocketGateway } from './websocket/websocket.gateway';
 
 @ApiTags('🌏 URL Upload')
 @Controller('api')
@@ -21,6 +22,6 @@ export class AppController {
     summary: 'Upload File from URL',
   })
   uploadFileFromURL(@Body() body: UploadFromUrlDto) {
-    return this.appService.uploadFileFromURL(body.url);
+    return this.appService.uploadFileFromURL(body.url, body.uid);
   }
 }

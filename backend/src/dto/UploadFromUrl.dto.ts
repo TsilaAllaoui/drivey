@@ -5,4 +5,8 @@ export class UploadFromUrlDto {
   @ApiProperty()
   @IsString()
   url: string;
+
+  @ApiProperty()
+  @IsString()
+  uid: string;
 }
