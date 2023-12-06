@@ -42,7 +42,9 @@ export class AppService {
 
       // Deleting and recreating uid folder for safety
       if (fs.existsSync(`/home/${username}/${uid}`)) {
-        await fs.rmdirSync(`/home/${username}/${uid}`);
+        await fs.rmdirSync(`/home/${username}/${uid}`, {
+          recursive: true,
+        });
       }
       await fs.mkdirSync(`/home/${username}/${uid}`);
 
@@ -149,8 +151,8 @@ export class AppService {
 
           uploadChild.on('close', (code) => {
             if (code == 0) {
-              console.log(`File at ${url} uploaded successfully...`);
-              return `File at ${url} uploaded successfully...`;
+              console.log(`File ${wgetInfo.file} uploaded successfully...`);
+              return `File at ${wgetInfo.file} uploaded successfully...`;
             } else {
               console.log(`Error while uploading file at ${url}...`);
               return `Error while uploading file at ${url}...`;
