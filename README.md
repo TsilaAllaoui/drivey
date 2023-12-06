@@ -15,7 +15,21 @@ A minimalistic remote file uploader to GoogleDrive
 
 # 💻 Tech used
 
-- NestJS ![NestJS](https://github.com/devicons/devicon/blob/master/icons/nestjs/nestjs-plain.svg)
-- ReactJS ![ReactJS](https://github.com/devicons/devicon/blob/master/icons/react/react-original.svg)
-- Socket.io ![Socketio](https://github.com/devicons/devicon/blob/master/icons/socketio/socketio-original.svg)
-- Linux ![Linux](https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg)
+<div style="display: flex; flex-direction: column; gap: 1rem; width: 25vw">
+    <div style="display: flex; gap: 1rem; align-items: center">
+        <span style="font-weight: bold">NestJS</span>
+        <img src="https://github.com/devicons/devicon/raw/master/icons/nestjs/nestjs-plain.svg" alt="NestJS" width="40" height="40" />
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center">
+        <span style="font-weight: bold">ReactJS</span>
+        <img src="https://github.com/devicons/devicon/raw/master/icons/react/react-original.svg" alt="ReactJS" width="40" height="40" />
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center">
+        <span style="font-weight: bold">Socket.io</span>
+        <img src="https://github.com/devicons/devicon/raw/master/icons/socketio/socketio-original.svg" alt="Socket.io" width="40" height="40" />
+    </div>
+     <div style="display: flex; gap: 1rem; align-items: center">
+        <span style="font-weight: bold">Linux/Bash</span>
+      <img src="https://github.com/devicons/devicon/raw/master/icons/linux/linux-original.svg" alt="Linux" width="40" height="40" />
+    </div>
+</div>
