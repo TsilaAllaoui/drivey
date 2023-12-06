@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Authorize from "./components/Authorize";
 import { api } from "./api";
+import Authorize from "./components/Authorize";
 
 function App() {
   const [uid, setUid] = useState("");

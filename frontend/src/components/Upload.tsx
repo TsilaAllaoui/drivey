@@ -5,10 +5,10 @@ import {
   Input,
   InputLabel,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 import { api } from "../api";
+import { socket } from "../socket";
 
 function Upload() {
   const location = useLocation();
@@ -24,16 +24,10 @@ function Upload() {
     });
   };
 
-  useEffect(() => {
-    const socket = io(import.meta.env.VITE_API_ENDPOINT!);
-    socket.on("percentage", (data) => {
-      console.log(data);
-      setPercentage(data);
-    });
-    socket.on("test", (data) => {
-      console.log(data);
-    });
-  }, []);
+  socket.on("percentage", (data) => {
+    console.log(data);
+    setPercentage(data);
+  });
 
   return (
     <FormControl
