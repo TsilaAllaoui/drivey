@@ -13,9 +13,21 @@ A minimalistic remote file uploader to GoogleDrive
 
 - Upload multiple url at once
 
+# How to build (Must be on linux OS)
+
+- Install gcsf <a>(https://github.com/harababurel/gcsf)</a>
+- Edit .env file in backend like this: SERVER_USERNAME="you_linux_server_user_name_here"
+- Edit .env file in frontend accordingly to your nestjs server
+- Change directory to project root folder
+- Run "yarn dev" for dev or "yarn build && yarn start" to build and deploy
+
 # 💻 Tech used
 
 <div style="display: flex; flex-direction: column; gap: 1rem; width: 25vw">
+    <div style="display: flex; gap: 1rem; font-weight: bold">
+      <span>GCSF</span>
+      <a>(https://github.com/harababurel/gcsf)</a>
+    </div>
     <div style="display: flex; gap: 1rem; align-items: center">
         <span style="font-weight: bold">NestJS</span>
         <img src="https://github.com/devicons/devicon/raw/master/icons/nestjs/nestjs-plain.svg" alt="NestJS" width="40" height="40" />
