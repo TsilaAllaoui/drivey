@@ -38,10 +38,8 @@ export class SessionService {
     try {
       let output = '';
       const uid = uuidv4();
-      console.log(uid);
-      const child = await child_process.spawnSync('gcsf', ['login', uid]);
-      console.log(child.stdout.toString());
-      console.log('UUID: ' + uid);
+      await child_process.spawnSync('gcsf', ['login', uid]);
+      console.log(`User with UUID: ${uid} logged in successfully...`);
       return uid;
     } catch (err) {
       console.log(err);
