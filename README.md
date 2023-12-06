@@ -19,6 +19,7 @@ A minimalistic remote file uploader to GoogleDrive
 - Edit .env file in backend like this: SERVER_USERNAME="you_linux_server_user_name_here"
 - Edit .env file in frontend accordingly to your nestjs server
 - Change directory to project root folder
+- Run "yarn"
 - Run "yarn dev" for dev or "yarn build && yarn start" to build and deploy
 
 # 💻 Tech used
