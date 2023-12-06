@@ -1,12 +1,14 @@
-import { Controller, Post, Delete, Param, Get, Body } from '@nestjs/common';
-import { SessionService } from './session.service';
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SessionService } from './session.service';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('🔗 Session')
 @Controller('/api/session')
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
+  // Check if user already have a session
   @Post('/:uid')
   @ApiOperation({
     summary: 'Check if user already have a session',
@@ -15,6 +17,7 @@ export class SessionController {
     return await this.sessionService.checkSession(uid);
   }
 
+  // Create session for current user
   @Get('login')
   @ApiOperation({
     summary: 'Create Session for current user',
@@ -23,6 +26,7 @@ export class SessionController {
     return await this.sessionService.createSession();
   }
 
+  // Delete user session
   @Delete('logout/:id')
   @ApiOperation({
     summary: 'Delete specific session',
