@@ -26,7 +26,7 @@ A minimalistic remote file uploader to GoogleDrive
     </div>
     <div style="display: flex; gap: 1rem; align-items: center">
         <span style="font-weight: bold">Socket.io</span>
-        <img src="https://github.com/devicons/devicon/raw/master/icons/socketio/socketio-original.svg" alt="Socket.io" width="40" height="40" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Socket-io.svg/900px-Socket-io.svg.png" alt="Socket.io" width="40" height="40" style="filter: grayscale(100%);" />
     </div>
      <div style="display: flex; gap: 1rem; align-items: center">
         <span style="font-weight: bold">Linux/Bash</span>
