@@ -1,6 +1,7 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SessionService } from './session.service';
+import { AccessTokenJsonDto } from './dto/accessTokenJson.dto';
 
 @ApiTags('🔗 Session')
 @Controller('/api/session')
@@ -17,12 +18,12 @@ export class SessionController {
   }
 
   // Create session for current user
-  @Get('login')
+  @Post('login/json/')
   @ApiOperation({
     summary: 'Create Session for current user',
   })
-  async createSession() {
-    return await this.sessionService.createSession();
+  async createSession(@Body() token: AccessTokenJsonDto) {
+    return await this.sessionService.createSession(token);
   }
 
   // Delete user session

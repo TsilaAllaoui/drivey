@@ -7,6 +7,7 @@ import * as child_process from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 import { ConfigService } from '@nestjs/config';
+import { AccessTokenJsonDto } from './dto/accessTokenJson.dto';
 
 @Injectable()
 export class SessionService {
@@ -34,12 +35,26 @@ export class SessionService {
   }
 
   // Create new session and mount current user drive
-  async createSession() {
+  async createSession(token: AccessTokenJsonDto) {
     try {
+      console.log(token);
+      const username = this.configService.get<string>('SERVER_USERNAME');
       let output = '';
       const uid = uuidv4();
-      await child_process.spawnSync('gcsf', ['login', uid]);
-      console.log(`User with UUID: ${uid} logged in successfully...`);
+
+      const json = JSON.stringify([
+        {
+          scopes: ['https://www.googleapis.com/auth/drive'],
+          token: {
+            access_token: token.access_token,
+            refresh_token: token.refresh_token,
+            id_token: null,
+          },
+        },
+      ]);
+
+      await fs.writeFileSync(`/home/${username}/.config/gcsf/${uid}`, json);
+
       return uid;
     } catch (err) {
       console.log(err);
