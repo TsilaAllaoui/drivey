@@ -25,6 +25,10 @@ A minimalistic remote file uploader to GoogleDrive
 - Run "yarn"
 - Run "yarn dev" for dev or "yarn build && yarn start" to build and deploy
 
+# Troubleshooting
+- If there is a message about the app not certified by google, just enter advanced options on the warning page and accept all prompt.
+![warning](/images/warning.png)
+
 # 💻 Tech used
 
 <div style="display: flex; flex-direction: column; gap: 1rem; width: 25vw">
