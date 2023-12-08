@@ -3,15 +3,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import * as child_process from 'child_process';
-import { v4 as uuidv4 } from 'uuid';
-import * as fs from 'fs';
 import { ConfigService } from '@nestjs/config';
+import * as child_process from 'child_process';
+import * as fs from 'fs';
+import { WebsocketGateway } from 'src/websocket/websocket.gateway';
+import { v4 as uuidv4 } from 'uuid';
 import { AccessTokenJsonDto } from './dto/accessTokenJson.dto';
 
 @Injectable()
 export class SessionService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private websocketGateway: WebsocketGateway,
+  ) {}
 
   // Check if an user have a session
   async checkSession(uid: string) {
@@ -42,6 +46,7 @@ export class SessionService {
       let output = '';
       const uid = uuidv4();
 
+      // Create access token
       const json = JSON.stringify([
         {
           scopes: ['https://www.googleapis.com/auth/drive'],
@@ -53,7 +58,14 @@ export class SessionService {
         },
       ]);
 
+      // Write access token to gcsf folder
       await fs.writeFileSync(`/home/${username}/.config/gcsf/${uid}`, json);
+
+      // If the created session is valid, emit to frontend the uid of the new session
+      const isSessionValid = this.checkSession(uid);
+      if (isSessionValid) {
+        this.websocketGateway.server.emit('new-session-created', uid);
+      }
 
       return uid;
     } catch (err) {
