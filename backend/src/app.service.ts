@@ -91,8 +91,8 @@ export class AppService {
 
             if (log.includes('Saving to:')) {
               const tmp = log.slice(
-                log.indexOf('‘', 'Saving to:') + 1,
-                log.indexOf('’', 'Saving to:'),
+                log.indexOf('‘', log.indexOf('Saving to:')) + 1,
+                log.indexOf('’', log.indexOf('Saving to:')),
               );
               const parts = tmp.split('/');
               wgetInfo.file = parts[parts.length - 1];
@@ -100,8 +100,8 @@ export class AppService {
 
             if (log.includes('Length:')) {
               wgetInfo.size = log.slice(
-                log.indexOf('(', 'Length:') + 1,
-                log.indexOf(')', 'Length:'),
+                log.indexOf('(', log.indexOf('Length:')) + 1,
+                log.indexOf(')', log.indexOf('Length:')),
               );
             }
 
