@@ -5,6 +5,8 @@
 
 A minimalistic remote file uploader to GoogleDrive
 
+### Live Demo (http://ec2-3-144-234-235.us-east-2.compute.amazonaws.com:3000/)
+
 # 🔥 Features
 
 - Upload url remote file directly to Google drive
@@ -12,6 +14,7 @@ A minimalistic remote file uploader to GoogleDrive
 # ✔️ Todo
 
 - Upload multiple url at once
+- Support Torrent upload
 
 # How to build (Must be on linux OS)
 
