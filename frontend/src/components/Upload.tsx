@@ -1,10 +1,3 @@
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { api } from "../api";
@@ -56,7 +49,7 @@ function Upload() {
   }, []);
 
   return (
-    <FormControl
+    <form
       style={{
         width: "50vw",
         display: "flex",
@@ -64,24 +57,22 @@ function Upload() {
         gap: "2rem",
       }}
     >
-      <InputLabel htmlFor="url">File URL</InputLabel>
-      <Input
+      <label htmlFor="url">File URL</label>
+      <input
+        type="text"
         id="url"
         aria-describedby="url-help"
         ref={urlInputRef}
         onChange={(e) => setUrl(e.currentTarget.value)}
       />
-      <FormHelperText id="url-help">Remote file url to upload</FormHelperText>
-      <Button variant="outlined" onClick={uploadFromUrl}>
-        Upload
-      </Button>
+      <button onClick={uploadFromUrl}>Upload</button>
       <p>File Name: {wgetInfo?.file}</p>
       <p>File Size: {wgetInfo?.size}</p>
       <p>Progress: {wgetInfo?.progress}</p>
       <p>Speed: {wgetInfo?.speed}</p>
       <p>Eta: {wgetInfo?.eta}</p>
       {finished ? <p>{`Upload of ${wgetInfo!.file} finished`}</p> : null}
-    </FormControl>
+    </form>
   );
 }
 

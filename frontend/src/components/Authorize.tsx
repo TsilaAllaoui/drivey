@@ -1,4 +1,3 @@
-import { Box, Button } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket";
@@ -14,8 +13,8 @@ function Authorize({ updateUid }: { updateUid: (v: string) => void }) {
   }, []);
 
   return (
-    <Box>
-      <Button variant="outlined">
+    <div>
+      <button>
         <a
           target="_blank"
           href={`https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/drive&access_type=offline&redirect_uri=${
@@ -24,8 +23,8 @@ function Authorize({ updateUid }: { updateUid: (v: string) => void }) {
         >
           Authorize
         </a>
-      </Button>
-    </Box>
+      </button>
+    </div>
   );
 }
 

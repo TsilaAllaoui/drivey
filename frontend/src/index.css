@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "Rethink";
+    src: url("../fonts/RethinkSans-VariableFont_wght.ttf");
+}
+
 body {
     margin: 0;
+
+    * {
+        font-family: "Mono";
+    }
 }
