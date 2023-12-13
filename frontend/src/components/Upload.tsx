@@ -94,7 +94,6 @@ function Upload() {
     speed: "",
   });
   const [url, setUrl] = useState("");
-  const [toastId, setToastId] = useState<Id>("");
 
   const urlInputRef = useRef<HTMLInputElement>(null);
 
