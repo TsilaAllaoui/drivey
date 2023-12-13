@@ -24,6 +24,7 @@ export class AppService {
     const username = this.configService.get<string>('SERVER_USERNAME');
 
     try {
+      let emitedFinished = false;
       let output = '';
       console.log(`Uploading file at url: "${url}"...`);
       let wgetInfo: WgetInfo = {
@@ -141,8 +142,12 @@ export class AppService {
               console.log(wgetInfo);
 
               this.websocketGateway.server.emit('percentage', wgetInfo);
-              if (wgetInfo.progress == '99%' || wgetInfo.progress == '100%') {
+              if (
+                !emitedFinished &&
+                (wgetInfo.progress == '99%' || wgetInfo.progress == '100%')
+              ) {
                 this.websocketGateway.server.emit('finished', true);
+                emitedFinished = true;
               }
             }
 

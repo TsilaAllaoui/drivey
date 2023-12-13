@@ -1,7 +1,7 @@
 import { lighten } from "polished";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Id, ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { api } from "../api";
