@@ -1,7 +1,7 @@
 import { lighten } from "polished";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Id, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { api } from "../api";
@@ -94,6 +94,7 @@ function Upload() {
     speed: "",
   });
   const [url, setUrl] = useState("");
+  const [toastId, setToastId] = useState<Id>("");
 
   const urlInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,7 +113,9 @@ function Upload() {
     });
     socket.on("finished", (data) => {
       console.log(data);
+
       toast.success("Upload finished!", {
+        toastId: "finished-toast",
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -122,6 +125,7 @@ function Upload() {
         progress: undefined,
         theme: "colored",
       });
+
       setTimeout(() => {
         setWgetInfo({
           file: "",
@@ -133,6 +137,11 @@ function Upload() {
         urlInputRef.current!.value = "";
       }, 2500);
     });
+
+    return () => {
+      socket.off("percentage");
+      socket.off("finished");
+    };
   }, []);
 
   return (
@@ -168,20 +177,7 @@ function Upload() {
             <span>Speed:</span>
             <span>{wgetInfo?.speed}</span>
           </p>
-          <p
-            onClick={() => {
-              toast.success("Upload finished!", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-                theme: "colored",
-              });
-            }}
-          >
+          <p>
             <span>Eta:</span>
             <span>{wgetInfo?.eta}</span>
           </p>
