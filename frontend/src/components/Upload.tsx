@@ -1,5 +1,5 @@
 import { lighten } from "polished";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -97,7 +97,8 @@ function Upload() {
 
   const urlInputRef = useRef<HTMLInputElement>(null);
 
-  const uploadFromUrl = () => {
+  const uploadFromUrl = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     api.post("/upload", {
       url,
       uid: location.pathname.slice(1),
@@ -135,7 +136,7 @@ function Upload() {
   }, []);
 
   return (
-    <StyledForm>
+    <StyledForm onSubmit={uploadFromUrl}>
       <label htmlFor="url">File URL</label>
       <input
         type="text"
@@ -144,7 +145,7 @@ function Upload() {
         ref={urlInputRef}
         onChange={(e) => setUrl(e.currentTarget.value)}
       />
-      <button onClick={uploadFromUrl}>Upload</button>
+      <button type="submit">Upload</button>
       {wgetInfo?.file != "" ? (
         <div className="infos">
           <p>
