@@ -12,6 +12,31 @@ const StyledDiv = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  overflow: hidden;
+  position: relative;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    * {
+      margin: 0.5rem 0;
+      color: white;
+    }
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+
+  .main {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 
   & > p {
     color: white;
@@ -22,7 +47,8 @@ const StyledDiv = styled.div`
     display: flex;
     gap: 2rem;
     color: white;
-    margin-bottom: 1rem;
+    position: absolute;
+    bottom: 1rem;
 
     span {
       a {
@@ -71,18 +97,20 @@ function App() {
 
   return (
     <StyledDiv>
-      <StyledDiv>
+      <div className="header">
         <StyledHeader>
           <img src="icon.svg" alt="icon" />
           <h1>Drivey</h1>
         </StyledHeader>
         <p>The way to upload</p>
-      </StyledDiv>
-      {uid == "" ? (
-        <Authorize updateUid={setUid} />
-      ) : (
-        <Outlet context={[uid, setUid]} />
-      )}
+      </div>
+      <div className="main">
+        {uid == "" ? (
+          <Authorize updateUid={setUid} />
+        ) : (
+          <Outlet context={[uid, setUid]} />
+        )}
+      </div>
       <footer>
         <span>Drivey 2023</span>
         {" - "}

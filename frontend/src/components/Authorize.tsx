@@ -7,8 +7,6 @@ import { socket } from "../socket";
 
 const StyledDiv = styled.div`
   background-color: ${({ theme }) => theme.secondary};
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
