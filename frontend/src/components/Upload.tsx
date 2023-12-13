@@ -188,6 +188,7 @@ function Upload() {
         </div>
       ) : null}
       <ToastContainer
+        limit={1}
         position="bottom-right"
         autoClose={5000}
         hideProgressBar
